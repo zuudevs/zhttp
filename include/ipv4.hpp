@@ -36,6 +36,10 @@ private :
         out += static_cast<char>('0' + value) ;
     }
 
+	[[nodiscard]] constexpr inline auto invert(std::unsigned_integral auto value) const noexcept -> decltype(value) {
+		return IS_LITTLE_ENDIAN ? std::byteswap(value) : value ;
+	}
+
 public :
 	constexpr IPv4() noexcept = default ;
 	constexpr IPv4(const IPv4&) noexcept = default ;
@@ -60,10 +64,7 @@ public :
 	}
 
 	constexpr explicit IPv4(uint32_t address) noexcept {
-		if constexpr (IS_LITTLE_ENDIAN) 
-			address_ = std::bit_cast<std::array<uint8_t, 4>>(std::byteswap(address)) ;
-		else 
-			address_ = std::bit_cast<std::array<uint8_t, 4>>(address) ;
+		address_ = std::bit_cast<std::array<uint8_t, 4>>(invert(address)) ;
 	}
 
 	constexpr IPv4(const std::string_view& s) noexcept {
@@ -87,7 +88,7 @@ public :
         }
         if (parsing_num && octet_idx < 4) 
             result[octet_idx] = static_cast<uint8_t>(current_val) ;
-		address_ = std::bit_cast<std::array<uint8_t, 4>>(ENDIAN_SWAP(std::bit_cast<uint32_t>(result))) ;
+		address_ = std::bit_cast<std::array<uint8_t, 4>>(invert(std::bit_cast<uint32_t>(result))) ;
     }
 
 	template <std::integral E, std::unsigned_integral auto N>
@@ -96,15 +97,12 @@ public :
 		auto count = std::min(static_cast<T>(capacity), N) ;
 		for(std::size_t i = 0; i < count; i++)
 			address_[i] = static_cast<uint8_t>(std::clamp(address[i], E{0}, E{255})) ;
-		address_ = std::bit_cast<std::array<uint8_t, 4>>(ENDIAN_SWAP(std::bit_cast<uint32_t>(address_))) ;
+		address_ = std::bit_cast<std::array<uint8_t, 4>>(invert(std::bit_cast<uint32_t>(address_))) ;
 		return *this ;
 	}
 
 	constexpr IPv4& operator=(uint32_t address) noexcept {
-		if constexpr (IS_LITTLE_ENDIAN) 
-			address_ = std::bit_cast<std::array<uint8_t, 4>>(std::byteswap(address)) ;
-		else 
-			address_ = std::bit_cast<std::array<uint8_t, 4>>(address) ;
+		address_ = std::bit_cast<std::array<uint8_t, 4>>(invert(address)) ;
 		return *this ;
 	}
 
@@ -113,17 +111,14 @@ public :
 
 	constexpr std::string toString() const noexcept {
         std::string res ;
-		auto arr = std::bit_cast<std::array<uint8_t, 4>>(
-			ENDIAN_SWAP(std::bit_cast<uint32_t>(address_))
-		) ;
         res.reserve(15) ;
-        append_uint8(res, arr[0]) ;
+        append_uint8(res, address_[0]) ;
         res += '.' ;
-        append_uint8(res, arr[1]) ;
+        append_uint8(res, address_[1]) ;
         res += '.' ;
-        append_uint8(res, arr[2]) ;
+        append_uint8(res, address_[2]) ;
         res += '.' ;
-        append_uint8(res, arr[3]) ;
+        append_uint8(res, address_[3]) ;
 
         return res ;
     }
