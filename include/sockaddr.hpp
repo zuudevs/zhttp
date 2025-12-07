@@ -66,12 +66,12 @@ public :
 	 : address_(address), port_(invert(port)) {}
 	
 	constexpr SockAddr(const native_t& native) noexcept
-	 : address_(native.sin_addr.s_addr)
+	 : address_(invert(native.sin_addr.s_addr))
 	 , port_(native.sin_port) {}
 
 	constexpr const IPv4& getAddress() const noexcept { return address_ ; }
 	constexpr IPv4& getAddress() noexcept { return address_ ; }
-	constexpr uint16_t getPort() const noexcept { return port_ ; }
+	constexpr uint16_t getPort() const noexcept { return invert(port_) ; }
 	constexpr void setPort(uint16_t port) noexcept { port_ = invert(port) ; }
 
 	constexpr std::string toString() const noexcept {
@@ -79,7 +79,7 @@ public :
 		r.reserve(21) ;
 		r += address_.toString() ;
 		r += ':' ;
-		append_uint16(r, invert(port_)) ;
+		append_uint16(r, getPort()) ;
 		return r ;
 	}
 

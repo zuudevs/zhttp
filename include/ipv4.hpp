@@ -107,7 +107,7 @@ public :
 	}
 
 	constexpr operator uint32_t() const noexcept { return toUint32() ; }
-	constexpr uint32_t toUint32() const noexcept { return std::bit_cast<uint32_t>(address_) ; }
+	constexpr uint32_t toUint32() const noexcept { return invert(std::bit_cast<uint32_t>(address_)) ; }
 
 	constexpr std::string toString() const noexcept {
         std::string res ;
