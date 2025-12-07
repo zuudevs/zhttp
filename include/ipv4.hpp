@@ -88,7 +88,7 @@ public :
         }
         if (parsing_num && octet_idx < 4) 
             result[octet_idx] = static_cast<uint8_t>(current_val) ;
-		address_ = std::bit_cast<std::array<uint8_t, 4>>(invert(std::bit_cast<uint32_t>(result))) ;
+		address_ = result ;
     }
 
 	template <std::integral E, std::unsigned_integral auto N>
@@ -97,7 +97,6 @@ public :
 		auto count = std::min(static_cast<T>(capacity), N) ;
 		for(std::size_t i = 0; i < count; i++)
 			address_[i] = static_cast<uint8_t>(std::clamp(address[i], E{0}, E{255})) ;
-		address_ = std::bit_cast<std::array<uint8_t, 4>>(invert(std::bit_cast<uint32_t>(address_))) ;
 		return *this ;
 	}
 
@@ -108,6 +107,7 @@ public :
 
 	constexpr operator uint32_t() const noexcept { return toUint32() ; }
 	constexpr uint32_t toUint32() const noexcept { return invert(std::bit_cast<uint32_t>(address_)) ; }
+	constexpr uint32_t Nbo_toUint32() const noexcept { return std::bit_cast<uint32_t>(address_) ; }
 
 	constexpr std::string toString() const noexcept {
         std::string res ;

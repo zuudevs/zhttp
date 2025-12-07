@@ -87,7 +87,7 @@ public :
 		native_t r {} ;
 		r.sin_family = AF_INET ;
 		r.sin_port = port_ ;
-		r.sin_addr.s_addr = address_.toUint32() ;
+		r.sin_addr.s_addr = address_.Nbo_toUint32() ;
 		return r ;
 	}
 } ;
