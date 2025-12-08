@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file endian.hpp
+ * @file util/endian.hpp
  * @author zuudevs (zuudevs@gmail.com)
  * @brief 
  * @version 1.0.0
@@ -14,9 +14,9 @@
 #include <bit>
 #include <concepts>
 
-namespace ZHTTP {
+namespace frqs {
 
 	static constexpr bool IS_LITTLE_ENDIAN = (std::endian::native == std::endian::little) ;
 	static constexpr bool IS_BIG_ENDIAN = (std::endian::native == std::endian::big) ;
 
-} // namespace ZHTTP
+} // namespace frqs

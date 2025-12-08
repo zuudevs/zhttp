@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file network.hpp
+ * @file core/network.hpp
  * @author zuudevs (zuudevs@gmail.com)
  * @brief 
  * @version 1.0.0
@@ -13,7 +13,7 @@
 
 #include "socket.hpp"
 
-namespace ZHTTP {
+namespace frqs {
 
 class Network {
 public : 
@@ -40,4 +40,4 @@ public :
 
 static Network NetworkInit {} ;
 
-} // namespace ZHTTP
+} // namespace frqs

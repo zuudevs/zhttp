@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file ipv4.hpp
+ * @file core/ipv4.hpp
  * @author zuudevs (zuudevs@gmail.com)
  * @brief 
  * @version 1.0.0
@@ -18,9 +18,9 @@
 #include <cstdint>
 #include <string>
 #include <string_view>
-#include "endian.hpp"
+#include "util/endian.hpp"
 
-namespace ZHTTP {
+namespace frqs {
 
 class IPv4 {
 public :
@@ -60,9 +60,9 @@ public :
 	constexpr std::strong_ordering operator<=>(const IPv4&) const noexcept = default ;
 	constexpr ~IPv4() noexcept = default ;
 
-	template <std::integral E, std::unsigned_integral auto N>
+	template <std::integral E, std::size_t N>
 	constexpr IPv4(const E (&address)[N]) noexcept {
-		auto count = std::min(static_cast<decltype(N)>(capacity), N) ;
+		auto count = std::min(static_cast<std::size_t>(capacity), N) ;
 		for(std::size_t i = 0; i < count; i++)
 			address_[i] = static_cast<uint8_t>(std::clamp(address[i], E{0}, E{255})) ;
 	}
@@ -225,4 +225,4 @@ public :
     }
 } ;
 
-} // namespace ZHTTP
+} // namespace frqs

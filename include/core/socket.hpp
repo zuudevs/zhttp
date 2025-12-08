@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file socket.hpp
+ * @file core/socket.hpp
  * @author zuudevs (zuudevs@gmail.com)
  * @brief 
  * @version 1.0.0
@@ -12,7 +12,7 @@
  */
 
 #include "sockaddr.hpp"
-#include <utility> // std::exchange
+#include <utility>
 #include <stdexcept>
 #include <vector>
 
@@ -23,7 +23,7 @@
 	#include <errno.h>
 #endif
 
-namespace ZHTTP {
+namespace frqs {
 
 class Socket {
 public:
@@ -145,4 +145,4 @@ public:
     native_handle_t native_handle() const noexcept { return handle_ ; }
 } ;
 
-} // namespace ZHTTP
+} // namespace frqs

@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file sockaddr.hpp
+ * @file core/sockaddr.hpp
  * @author zuudevs (zuudevs@gmail.com)
  * @brief 
  * @version 1.0.0
@@ -31,7 +31,7 @@
     #include <sys/socket.h>
 #endif
 
-namespace ZHTTP {
+namespace frqs {
 
 class SockAddr {
 public :
@@ -103,4 +103,4 @@ public :
 	}
 } ;
 
-} // namespace ZHTTP
+} // namespace frqs

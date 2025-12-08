@@ -5,16 +5,10 @@
 #include <format>
 #include <filesystem>
 
-#include "network.hpp" 
-
-#undef ERROR
-#include "logger.hpp" 
-
-#ifdef ERROR
-    #undef ERROR
-#endif
+#include "net.hpp"
 
 int main(int argc, char* argv[]) { 
+	using namespace frqs ;
     try {
         std::ofstream log("report.log", std::ios::app);
 
@@ -25,7 +19,7 @@ int main(int argc, char* argv[]) {
 
         // Cek file ada atau nggak (Optional tapi bagus)
         if (!std::filesystem::exists(filename)) {
-            auto err_msg = ZHTTP::CreateLog(ZHTTP::Level::WARN, std::format("File '{}' not found! fallback to default(index.html).", filename));
+            auto err_msg = CreateLog(Level::WARN, std::format("File '{}' not found! fallback to default(index.html).", filename));
             std::cerr << err_msg << "\n";
             log << err_msg << "\n";
         }
@@ -39,17 +33,17 @@ int main(int argc, char* argv[]) {
             buffer << html_file.rdbuf();
             body = buffer.str();
             
-            auto msg = ZHTTP::CreateLog(ZHTTP::Level::INFO, std::format("Loaded file: {}", filename));
+            auto msg = CreateLog(Level::INFO, std::format("Loaded file: {}", filename));
             std::cout << msg << "\n";
             log << msg << "\n";
         } else {
             body = "<h1>404 Not Found</h1><p>Yah, file <b>" + filename + "</b> gak ketemu, Ra.</p>";
         }
 
-        ZHTTP::Socket server;
-        ZHTTP::SockAddr bind_addr(ZHTTP::IPv4(0u), 8080);
+        Socket server;
+        SockAddr bind_addr(IPv4(0u), 8080);
 
-        auto start_msg = ZHTTP::CreateLog(ZHTTP::Level::INFO, std::format("Server listening on {}", bind_addr.toString()));
+        auto start_msg = CreateLog(Level::INFO, std::format("Server listening on {}", bind_addr.toString()));
         log << start_msg << "\n";
         std::cout << start_msg << "\n";
 
@@ -57,10 +51,10 @@ int main(int argc, char* argv[]) {
         server.listen();
 
         while (true) {
-            ZHTTP::SockAddr client_addr;
-            ZHTTP::Socket client = server.accept(&client_addr);
+            SockAddr client_addr;
+            Socket client = server.accept(&client_addr);
 
-            auto guest_msg = ZHTTP::CreateLog(ZHTTP::Level::INFO, std::format("Request from {}", client_addr.toString()));
+            auto guest_msg = CreateLog(Level::INFO, std::format("Request from {}", client_addr.toString()));
             std::cout << guest_msg << "\n";
             log << guest_msg << "\n";
 

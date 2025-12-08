@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file logger.hpp
+ * @file util/logger.hpp
  * @author zuudevs (zuudevs@gmail.com)
  * @brief 
  * @version 1.0.0
@@ -17,7 +17,7 @@
 #include <string_view>
 #include <chrono>
 
-namespace ZHTTP {
+namespace frqs {
 
 enum class Level : uint8_t {INFO, WARN, ERROR} ;
 
@@ -37,4 +37,4 @@ enum class Level : uint8_t {INFO, WARN, ERROR} ;
     return std::format("[{:%F %T}] [{:<5}] {}", local_time, level_str, msg) ;
 }
 
-} // namespace ZHTTP
+} // namespace frqs
