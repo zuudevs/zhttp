@@ -3,6 +3,7 @@
 #include "sockaddr.hpp"
 #include <utility> // std::exchange
 #include <stdexcept>
+#include <vector>
 
 #ifdef _WIN32
 	#pragma comment(lib, "ws2_32.lib") 
@@ -54,17 +55,6 @@ public:
         return *this ;
     }
 
-    void close() {
-        if (handle_ != invalid_handle) {
-#ifdef _WIN32
-			::closesocket(handle_) ;
-#else 
-			::close(handle_) ;
-#endif
-            handle_ = invalid_handle ;
-        }
-    }
-
 	void bind(const SockAddr& addr) {
         auto native_addr = addr.native() ;
         if (::bind(handle_, reinterpret_cast<sockaddr*>(&native_addr), sizeof(native_addr)) != 0) 
@@ -95,9 +85,52 @@ public:
 
         return Socket(client_fd) ;
     }
-    
-	bool invalid() const noexcept { return handle_ == invalid_handle ; }
 
+	size_t send(const void* data, size_t size) {
+        auto sent = ::send(handle_, static_cast<const char*>(data), static_cast<int>(size), 0) ;
+        if (sent < 0) 
+            throw std::runtime_error("Send failed") ;
+        return static_cast<size_t>(sent) ;
+    }
+
+	size_t send(std::string_view data) { return send(data.data(), data.size()) ; }
+
+	size_t receive(void* buffer, size_t size) {
+        auto received = ::recv(handle_, static_cast<char*>(buffer), static_cast<int>(size), 0) ;
+        if (received < 0) 
+            throw std::runtime_error("Receive failed") ;
+        return static_cast<size_t>(received) ;
+    }
+
+	std::vector<char> receive(size_t max_size = 4096) {
+        std::vector<char> buffer(max_size) ;
+        size_t bytes = receive(buffer.data(), max_size) ;
+        buffer.resize(bytes) ;
+        return buffer ;
+    }
+
+	void close() {
+        if (handle_ != invalid_handle) {
+#ifdef _WIN32
+			::closesocket(handle_) ;
+#else 
+			::close(handle_) ;
+#endif
+            handle_ = invalid_handle ;
+        }
+    }
+
+	void shutdown(int how = 2) { 
+        if (handle_ != invalid_handle) {
+#ifdef _WIN32
+            ::shutdown(handle_, how);
+#else
+            ::shutdown(handle_, how);
+#endif
+        }
+    }
+
+	bool invalid() const noexcept { return handle_ == invalid_handle ; }
     native_handle_t native_handle() const noexcept { return handle_ ; }
 } ;
 
