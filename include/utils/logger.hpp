@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file util/logger.hpp
+ * @file utils/logger.hpp
  * @author zuudevs (zuudevs@gmail.com)
  * @brief 
  * @version 1.0.0
@@ -11,13 +11,17 @@
  * 
  */
 
+#ifdef ERROR
+	#undef ERROR
+#endif
+
 #include <cstdint>
 #include <format>
 #include <string>
 #include <string_view>
 #include <chrono>
 
-namespace frqs {
+namespace frqs::utils {
 
 enum class Level : uint8_t {INFO, WARN, ERROR} ;
 
@@ -31,10 +35,15 @@ enum class Level : uint8_t {INFO, WARN, ERROR} ;
     }
 
     auto now = std::chrono::system_clock::now() ;
-    
     auto local_time = std::chrono::zoned_time{std::chrono::current_zone(), now} ;
 
     return std::format("[{:%F %T}] [{:<5}] {}", local_time, level_str, msg) ;
 }
 
-} // namespace frqs
+// Helper functions for logging
+void logInfo(std::string_view message) ;
+void logWarn(std::string_view message) ;
+void logError(std::string_view message) ;
+void enableFileLogging(const std::string& filename) ;
+
+} // namespace frqs::utils

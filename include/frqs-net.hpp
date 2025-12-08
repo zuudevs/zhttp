@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file net.hpp
+ * @file frqs-net.hpp
  * @author zuudevs (zuudevs@gmail.com)
  * @brief 
  * @version 1.0.0
@@ -11,13 +11,13 @@
  * 
  */
 
-#include "core/network.hpp"
+#include "core/server.hpp"
 
 #ifdef ERROR
 	#undef ERROR
 #endif
 
-#include "util/logger.hpp"
+#include "utils/logger.hpp"
 
 #define MAJOR 1
 #define MINOR 0

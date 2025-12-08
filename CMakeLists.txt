@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 project(
-	ZHTTP
+	FRQS_NET
 	VERSION 1.0.0
 	LANGUAGES CXX
 )
@@ -26,10 +26,20 @@ else()
 	)
 endif()
 
-add_executable(ZHTTP
+add_executable(FRQS_NET
 	src/main.cpp
+	src/net/ipv4.cpp
+	src/net/sockaddr.cpp
+	src/net/socket.cpp
+	src/utils/filesystem_utils.cpp
+	src/utils/logger.cpp
+	src/utils/thread_pool.cpp
+	src/http/mime_types.cpp
+	src/http/request.cpp
+	src/http/response.cpp
+	src/core/server.cpp
 )
 
-target_include_directories(ZHTTP PRIVATE 
+target_include_directories(FRQS_NET PRIVATE 
     "${CMAKE_SOURCE_DIR}/include"
 )
