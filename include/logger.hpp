@@ -1,5 +1,16 @@
 #pragma once
 
+/**
+ * @file logger.hpp
+ * @author zuudevs (zuudevs@gmail.com)
+ * @brief 
+ * @version 1.0.0
+ * @date 2025-12-08
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #include <cstdint>
 #include <format>
 #include <string>

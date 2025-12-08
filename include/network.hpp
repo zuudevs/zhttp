@@ -1,11 +1,22 @@
 #pragma once
 
+/**
+ * @file network.hpp
+ * @author zuudevs (zuudevs@gmail.com)
+ * @brief 
+ * @version 1.0.0
+ * @date 2025-12-08
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #include "socket.hpp"
 
 namespace ZHTTP {
 
 class Network {
-public:
+public : 
     Network() {
 #ifdef _WIN32
         WSADATA wsaData ;
@@ -26,5 +37,7 @@ public:
     Network(Network&&) = delete ;
     Network& operator=(Network&&) = delete ;
 } ;
+
+static Network NetworkInit {} ;
 
 } // namespace ZHTTP

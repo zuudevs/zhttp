@@ -1,5 +1,16 @@
 #pragma once
 
+/**
+ * @file ipv4.hpp
+ * @author zuudevs (zuudevs@gmail.com)
+ * @brief 
+ * @version 1.0.0
+ * @date 2025-12-08
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #include <algorithm>
 #include <array>
 #include <compare>

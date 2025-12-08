@@ -16,7 +16,6 @@
 
 int main(int argc, char* argv[]) { 
     try {
-        ZHTTP::Network net_manager; 
         std::ofstream log("report.log", std::ios::app);
 
         std::string filename = "index.html"; 

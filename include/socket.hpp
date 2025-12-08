@@ -1,5 +1,16 @@
 #pragma once
 
+/**
+ * @file socket.hpp
+ * @author zuudevs (zuudevs@gmail.com)
+ * @brief 
+ * @version 1.0.0
+ * @date 2025-12-08
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #include "sockaddr.hpp"
 #include <utility> // std::exchange
 #include <stdexcept>
